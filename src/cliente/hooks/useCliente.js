@@ -47,15 +47,48 @@ const useCliente = () => {
   const grabar = async (e) => {
     e.preventDefault();
     console.log(formulario);
-    const res = await servicios.grabarCliente(formulario);
+    if (formulario.codigo === 0) {
+      const res = await servicios.grabarCliente(formulario);
+      console.log(res);
+      if (res.status === 200) {
+        alert("El Cliente se grabo correctamente");
+        limpiarFormulario();
+        listarClientesApi();
+        return;
+      }
+      alert("Error al grabar el cliente");
+      return;
+    }
+    const res = await servicios.editarCliente(formulario);
     console.log(res);
     if (res.status === 200) {
-      alert("El Cliente se grabo correctamente");
+      alert("El Cliente se edito correctamente");
       limpiarFormulario();
       listarClientesApi();
       return;
     }
-    alert("Error al grabar el cliente");
+    alert("Error al editar el cliente");
+  };
+
+  const eliminarCliente = async () => {
+    const res = await servicios.eliminarCliente(formulario);
+    console.log(res);
+    if (res.status === 200) {
+      alert("El Cliente se elimino correctamente");
+      limpiarFormulario();
+      listarClientesApi();
+      return;
+    }
+    alert("Error al eliminar el cliente");
+  };
+
+  const obtenerCliente = (e) => {
+    console.log(e);
+    const datoSeleccionado = e.row;
+    setFormulario({
+      ...datoSeleccionado,
+      fechaNacimiento: String(datoSeleccionado.fechaNacimiento).slice(0, 10),
+    });
   };
 
   // cambia la lista los clientes
@@ -80,6 +113,8 @@ const useCliente = () => {
     handleFechaNacimiento,
     handleCelular,
     grabar,
+    obtenerCliente,
+    eliminarCliente,
   };
 };
 

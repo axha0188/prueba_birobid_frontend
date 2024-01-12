@@ -13,3 +13,15 @@ export const grabarCliente = async (datos) => {
   const res = await axios.post(apiUrl, datos);
   return res.data;
 };
+
+export const editarCliente = async (datos) => {
+  const apiUrl = `${URL_API}/editarcliente`;
+  const res = await axios.post(apiUrl, datos);
+  return res.data;
+};
+
+export const eliminarCliente = async (datos) => {
+  const apiUrl = `${URL_API}/eliminarcliente`;
+  const res = await axios.post(apiUrl, datos);
+  return res.data;
+};

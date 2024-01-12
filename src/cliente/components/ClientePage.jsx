@@ -15,7 +15,17 @@ const columns = [
   { field: "telefono", headerName: "Telefono", width: 150 },
   { field: "celular", headerName: "celular", width: 150 },
   { field: "correo", headerName: "Correo", width: 150 },
-  { field: "genero", headerName: "Genero", width: 150 },
+  {
+    field: "genero",
+    headerName: "Genero",
+    width: 150,
+    valueFormatter: (params) => {
+      if (String(params.value).trim() === "M") {
+        return "MASQUILINO";
+      }
+      return `FEMENINO`;
+    },
+  },
   { field: "fechaNacimiento", headerName: "Fecha Nacimiento", width: 150 },
 ];
 
@@ -23,7 +33,6 @@ function ClientePage() {
   const {
     listaCliente,
     formulario,
-    listarClientesApi,
     handleNombre,
     handleCedula,
     handleTelefono,
@@ -32,6 +41,8 @@ function ClientePage() {
     handleFechaNacimiento,
     grabar,
     handleCelular,
+    obtenerCliente,
+    eliminarCliente,
   } = useCliente();
   return (
     <>
@@ -116,6 +127,16 @@ function ClientePage() {
                   Guardar
                 </Button>
               </Grid>
+              <Grid item xs={12}>
+                <Button
+                  disabled={formulario.codigo === 0}
+                  variant="contained"
+                  fullWidth
+                  onClick={() => eliminarCliente()}
+                >
+                  Eliminar
+                </Button>
+              </Grid>
             </Grid>
           </form>
         </Grid>
@@ -125,6 +146,7 @@ function ClientePage() {
               columns={columns}
               rows={listaCliente}
               getRowId={(e) => e.codigo}
+              onRowDoubleClick={(e) => obtenerCliente(e)}
             />
           </Box>
         </Grid>
